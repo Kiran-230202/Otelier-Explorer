@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/* Define custom theme variables if needed, otherwise v4 handles them automatically */
+@theme {
+  --color-brand-indigo: #4f46e5;
+}
+
+/* Base styles for the cinematic background */
+:root {
+  background-color: #020617;
+  /* slate-950 */
+  color: #e2e8f0;
+  /* slate-200 */
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  /* Cinematic Radial Gradient */
+  background-image:
+    radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+.aspect-9-16 {
+  aspect-ratio: 9 / 16;
+}
