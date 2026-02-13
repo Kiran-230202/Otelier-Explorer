@@ -1,16 +1,42 @@
-# React + Vite
+# 🏨 Otelier Explorer
+**Cinematic Hotel Discovery & Comparison Dashboard**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Otelier Explorer is a high-performance web application featuring a sleek, high-contrast interface. It showcases modern frontend capabilities like infinite scrolling, skeleton loading, and real-time comparison baskets.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Setup Instructions
 
-## React Compiler
+Follow these steps to get the project running on your local machine.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Clone & Install
+Open your terminal and run the following:
+```bash
+git clone <your-repository-url>
+cd otelier-explorer
+npm install
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Environment Configuration
+Create a file named .env in the root folder of the project. Copy and paste the following variables, replacing the placeholders with your actual keys from Supabase and Amadeus:
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Amadeus API Configuration
+VITE_AMADEUS_CLIENT_ID=your_amadeus_api_key
+VITE_AMADEUS_CLIENT_SECRET=your_amadeus_api_secret
+
+
+3. Launch the Application
+Start the Vite development server:
+npm run dev
+
+Features & Logic
+Infinite Scroll: Uses the IntersectionObserver API to load more hotels dynamically as you scroll.
+
+Skeleton Loading: Cinematic shimmer effects provided by SkeletonCard.jsx to maintain layout stability.
+
+Context API: Centralized state management via HotelContext and AuthContext.
+
+High-Visibility UI: Uses font-black and slate-900 for a premium, readable look.

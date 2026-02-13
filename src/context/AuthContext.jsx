@@ -31,7 +31,11 @@ export const AuthProvider = ({ children }) => {
     const value = {
         signUp: (data) => supabase.auth.signUp(data),
         signIn: (data) => supabase.auth.signInWithPassword(data),
-        signOut: () => supabase.auth.signOut(),
+        signOut: async () => {
+        await supabase.auth.signOut();
+        setUser(null); // Force local state to null immediately
+        window.location.href = '/login'; // Hard redirect to reset all app memory
+    },
         user,
         isAdmin: String(user?.role).trim().toLowerCase() === 'admin'
     };

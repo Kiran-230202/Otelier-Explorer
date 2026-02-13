@@ -1,31 +1,48 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import Toaster from '../components/Toaster';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-
+    const [toast, setToast] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const { signIn, signUp } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
+        setToast(null);
+        setIsLoading(true);
         try {
             const { error } = isLogin
                 ? await signIn({ email, password })
                 : await signUp({ email, password });
 
             if (error) throw error;
-            alert(isLogin ? "Logged in!" : "Check your email for confirmation!");
+            setToast({
+                message: isLogin ? 'Success' : 'Account Created',
+                subMessage: isLogin ? 'Redirecting to explorer...' : 'Check your email to verify.',
+                type: 'success'
+            });
         } catch (err) {
-            setError(err.message);
+            setToast({
+                message: 'Error',
+                subMessage: err.message,
+                type: 'error'
+            });
         }
+        setIsLoading(false);
     };
 
     return (
         <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4">
+            {toast && (
+                <Toaster
+                    {...toast}
+                    onClose={() => setToast(null)}
+                />
+            )}
             {/* Cinematic Background Elements */}
             <div className="absolute top-[-10%] left-[-10%] h-[40%] w-[40%] rounded-full bg-indigo-900/20 blur-[120px]" />
             <div className="absolute bottom-[-10%] right-[-10%] h-[40%] w-[40%] rounded-full bg-blue-900/20 blur-[120px]" />
@@ -44,9 +61,9 @@ const Auth = () => {
                 </div>
 
                 <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
-                    {error && (
+                    {toast && (
                         <div className="rounded-lg bg-red-500/10 p-3 text-center text-sm font-medium text-red-400 border border-red-500/20">
-                            {error}
+                            {toast.subMessage}
                         </div>
                     )}
 
@@ -77,13 +94,16 @@ const Auth = () => {
                         type="submit"
                         className="w-full rounded-xl bg-indigo-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-600/40 active:scale-[0.98]"
                     >
-                        {isLogin ? 'Sign In' : 'Create Account'}
+                        {isLoading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
                     </button>
                 </form>
 
                 <div className="text-center">
                     <button
-                        onClick={() => setIsLogin(!isLogin)}
+                        onClick={() => {
+                            setIsLogin(!isLogin);
+                            setToast(null);
+                        }}
                         className="text-sm font-medium text-slate-400 transition-colors hover:text-indigo-400"
                     >
                         {isLogin ? (

@@ -1,25 +1,33 @@
 import { useAuth } from './context/AuthContext';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
+import Compare from './pages/Compare';
 import './App.css'
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Compare from './pages/Compare';
 
 function App() {
   const { user } = useAuth();
 
- return (
+  return (
     <Routes>
-      {/* Home / Search Feed */}
-      <Route path="/" element={<Dashboard />} />
-      
-      {/* Comparison Insights Page */}
-      <Route path="/compare" element={<Compare />} />
+      <Route
+        path="/auth"
+        element={!user ? <Auth /> : <Navigate to="/" replace />}
+      />
 
-      {/* Redirect all unknown routes back to home */}
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route
+        path="/"
+        element={user ? <Dashboard /> : <Navigate to="/auth" replace />}
+      />
+
+      <Route
+        path="/compare"
+        element={user ? <Compare /> : <Navigate to="/auth" replace />}
+      />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
 
-export default App
+export default App;
